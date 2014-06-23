@@ -50,20 +50,23 @@ class Board:
 
     layout = ((3, 10), (3, 15), (3, 17), (3, 21), (3, 23), (3, 24), (3, 25), (3, 26), (3, 27), (3, 30), (3, 31), (3, 32), (3, 33), (3, 34), (3, 35), (3, 37), (3, 38), (3, 39), (3, 40), (3, 41), (3, 44), (3, 49), (3, 52), (3, 53), (3, 54), (3, 55), (3, 58), (3, 59), (3, 60), (3, 61), (3, 62), (3, 65), (3, 66), (3, 67), (3, 68), (3, 69), (3, 70), (4, 10), (4, 15), (4, 18), (4, 20), (4, 23), (4, 28), (4, 30), (4, 37), (4, 42), (4, 44), (4, 45), (4, 49), (4, 51), (4, 56), (4, 58), (4, 63), (4, 65), (5, 10), (5, 11), (5, 12), (5, 13), (5, 14), (5, 15), (5, 19), (5, 23), (5, 28), (5, 30), (5, 31), (5, 32), (5, 33), (5, 34), (5, 37), (5, 42), (5, 44), (5, 46), (5, 49), (5, 51), (5, 56), (5, 58), (5, 63), (5, 65), (5, 66), (5, 67), (5, 68), (5, 69), (6, 10), (6, 15), (6, 19), (6, 23), (6, 24), (6, 25), (6, 26), (6, 27), (6, 30), (6, 37), (6, 38), (6, 39), (6, 40), (6, 41), (6, 44), (6, 47), (6, 49), (6, 51), (6, 56), (6, 58), (6, 63), (6, 65), (7, 10), (7, 15), (7, 19), (7, 23), (7, 30), (7, 37), (7, 41), (7, 44), (7, 48), (7, 49), (7, 51), (7, 56), (7, 58), (7, 63), (7, 65), (8, 10), (8, 15), (8, 19), (8, 23), (8, 30), (8, 31), (8, 32), (8, 33), (8, 34), (8, 35), (8, 37), (8, 42), (8, 44), (8, 49), (8, 52), (8, 53), (8, 54), (8, 55), (8, 58), (8, 59), (8, 60), (8, 61), (8, 62), (8, 65), (8, 66), (8, 67), (8, 68), (8, 69), (8, 70), (11, 15), (11, 16), (11, 17), (11, 18), (11, 21), (11, 26), (11, 28), (11, 29), (11, 30), (11, 31), (11, 32), (11, 35), (11, 40), (11, 42), (11, 44), (11, 49), (11, 52), (11, 53), (11, 54), (11, 55), (11, 58), (11, 59), (11, 60), (11, 61), (11, 62), (12, 14), (12, 21), (12, 26), (12, 28), (12, 33), (12, 35), (12, 40), (12, 42), (12, 44), (12, 49), (12, 51), (12, 56), (12, 58), (12, 63), (13, 15), (13, 16), (13, 17), (13, 18), (13, 21), (13, 26), (13, 28), (13, 33), (13, 35), (13, 40), (13, 42), (13, 44), (13, 49), (13, 51), (13, 56), (13, 58), (13, 63), (14, 19), (14, 21), (14, 26), (14, 28), (14, 29), (14, 30), (14, 31), (14, 32), (14, 35), (14, 40), (14, 42), (14, 44), (14, 49), (14, 51), (14, 56), (14, 58), (14, 59), (14, 60), (14, 61), (14, 62), (15, 14), (15, 19), (15, 21), (15, 26), (15, 28), (15, 32), (15, 36), (15, 39), (15, 42), (15, 45), (15, 48), (15, 51), (15, 56), (15, 58), (15, 62), (16, 15), (16, 16), (16, 17), (16, 18), (16, 22), (16, 23), (16, 24), (16, 25), (16, 28), (16, 33), (16, 37), (16, 38), (16, 42), (16, 46), (16, 47), (16, 52), (16, 53), (16, 54), (16, 55), (16, 58), (16, 63))
 
+    dimy = 24
+    dimx = 80
+
     @classmethod
-    def wrap(cls, loc, dimy, dimx):
+    def wrap(cls, loc):
         """ Convert out-of-bounds coordinates """
         y, x = loc
 
-        if x == 0: x = dimx - 2
-        if y == 0: y = dimy - 2
+        if x == 0: x = cls.dimx - 2
+        if y == 0: y = cls.dimy - 2
 
-        if x == dimx - 1: x = 1
-        if y == dimy - 1: y = 1
+        if x == cls.dimx - 1: x = 1
+        if y == cls.dimy - 1: y = 1
 
         return y, x
 
-    def unwrap(self, loc, dimy, dimx):
+    def unwrap(self, loc):
         pass
 
 
@@ -88,13 +91,11 @@ class Game(object):
     def __init__(self):
 
         curses.initscr()
-        self.dim_y = 20
-        self.dim_x = 80
         # this is the viewport, the playing field runs from 1 to dim-2 (inclusive)
 
         self.loop_id = 0
 
-        win = curses.newwin(self.dim_y, self.dim_x, 0, 0)
+        win = curses.newwin(Board.dimy, Board.dimx, 0, 0)
         win.keypad(1)
         curses.noecho()
         curses.curs_set(0)
@@ -111,7 +112,7 @@ class Game(object):
         self.sand = []
         self.rocks = []
 
-        all_cells = [(y, x) for y in range(1, self.dim_y-1) for x in range(1, self.dim_x-1)]
+        all_cells = [(y, x) for y in range(1, Board.dimy - 1) for x in range(1, Board.dimx - 1)]
         shuffle(all_cells)
 
         for pos in Board.layout:
@@ -206,9 +207,9 @@ class Game(object):
                     continue
 
                 # skip out of bounds
-                if y + delta_y in (0, self.dim_y - 1):
+                if y + delta_y in (0, Board.dimy - 1):
                     continue
-                if x + delta_x in (0, self.dim_x - 1):
+                if x + delta_x in (0, Board.dimx - 1):
                     continue
 
                 neighbours.append((y + delta_y, x + delta_x))
@@ -224,7 +225,7 @@ class Game(object):
         """ Add two vectors / coordinates, wrap borders """
 
         newloc = tuple(map(sum, zip(q, p)))
-        return Board.wrap(newloc, self.dim_y, self.dim_x)
+        return Board.wrap(newloc)
 
     def debug(self, msg):
         logger.info("[%4d] %s" % (self.loop_id, msg))
@@ -282,7 +283,7 @@ class Game(object):
             self.sand.append(next_non_sand_pos)
             self.print_actor(next_non_sand_pos, 'sand')
 
-        newpos = Board.wrap(newpos, self.dim_y, self.dim_x)
+        newpos = Board.wrap(newpos)
 
         # Did I move?
         if self.hero == newpos:
