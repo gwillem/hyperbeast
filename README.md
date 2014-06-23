@@ -11,6 +11,13 @@ Use arrow keys. Eliminate all monsters by squeezing them between blocks. A monst
 
 # Ideas
 
+* Scores and timers
+* Monsters side-step moved blocks
+* Monsters wrap borders too
+* Monsters are more intelligent in path-finding
+* Monsters have random movements
+* You can only squash monsters that are a level below you
+* Dead and victory animations
 * Diamonds (give extra capability)
 * Rocks (can't be moved)
 * Shooting
