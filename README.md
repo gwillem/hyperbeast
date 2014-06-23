@@ -7,12 +7,12 @@ It was called BEAST.EXE. As nobody seems to have copied it to the Internet, I ma
 
 # Gameplay
 
-Eliminate all monsters by squeezing them between blocks.
+Use arrow keys. Eliminate all monsters by squeezing them between blocks. A monster is only squashed, when it has its back against a block.
 
-# Todo
+# Ideas
 
 * Diamonds (give extra capability)
 * Rocks (can't be moved)
 * Shooting
 * Bombs
-* Supermonsters
+* Supermonsters (are bigger and/or can move blocks themselves)
